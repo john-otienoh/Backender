@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A Basic Todo App">
+    <meta name="keywords" content="Todo app">
+    <meta name="author" content="Outis">
+    <title>To-Do App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" href="{% static 'todo.webp' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div id="newtask">
+            <h1>Enter Your Tasks</h1>
+            <form action="{% url 'todo:add_task' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="text" placeholder="Enter tasks" id="taskInput" name='title' required>
+                <button class='new-task' type='submit'>Add</button>
+            </form>
+        </div>
+
+        <div class="task-list">
+            {% for task in tasks %}
+            <div class="task">
+                <div class="task-info">
+                    <span class="task-title">{{ task.title }}</span>
+                </div>
+                <div class="task-actions">
+                    <a href="{% url 'todo:delete' task_id=task.id %}" style='text-decoration: none;' onclick="return confirm('Are you sure you want to delete this task?')">
+                        <i class="fas fa-trash" title='Delete'></i>
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+                <p class='empty'>No tasks available. Add a new task!</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
