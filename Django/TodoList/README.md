@@ -20,7 +20,7 @@ This is a simple Todo App in Django. It allows users to create, view and delete 
 
 ## Technologies Used
 
-- Python 3.x
+- Python 3.12.3
 - Django 5.1.1 (or the specific version you are using)
 - [HTML5 & CSS3]
 - [Database - SQLite3]
@@ -77,4 +77,4 @@ To get a copy of this project up and running on your local machine for developme
     ```
 
 3. **Access the application:**
-    Open your web browser and go to [Here](http://127.0.0.1:8000/todo/)  to view the application.
+Open your web browser and go to [Here](http://127.0.0.1:8000/todo/)  to view the application.
