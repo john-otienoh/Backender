@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trend Blogger</title>
+    <!-- Box-icon -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="nav container">
+            <a href="#" class="logo">Avi<span>Blogs</span></a>
+            <a href="#" class="login">Sign Up</a>
+        </div>
+    </header>
+
+    <section class="home" id="home">
+        <div class="home-text container">
+            <h2 class="home-title">Trend Blogger</h2>
+            <span class="home-subtitle">Your source of great Aviation content</span>
+        </div>
+    </section>
+
+    <h1 class="titleText">{{ post.title }}</h1>
+    <p class=""> Published {{ post.publish }} by {{ post.author }}</p>
+    {{ post.body|linebreaks }} 
+    <!-- <p> 
+        <a href="{% url 'blog:post_share' post.id %}"> Share this post </a> 
+    </p>  -->
+    <h2>Similar posts</h2>
+    {% for post in similar_posts %} 
+        <p><a href="{{ post.get_absolute_url }}">{{ post.title }}</a> </p> 
+        {% empty %} There are no similar posts yet. 
+    {% endfor %}
+    {% with comments.count as total_comments %} 
+        <h2> {{ total_comments }} comment{{ total_comments|pluralize }} </h2>
+    {% endwith %}
+    {% for comment in comments %} 
+        <div class="comment"> 
+            <p class="info">Comment {{ forloop.counter }} by {{ comment.name }} {{ comment.created }} </p> 
+            {{ comment.body|linebreaks }} 
+        </div> 
+        {% empty %} 
+            <p>There are no comments.</p>
+    {% endfor %}
+    {% include "aviblogs/comment_form.html" %}
+</body>
+</html>
