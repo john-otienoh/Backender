@@ -1,12 +1,13 @@
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 from django.core.exceptions import ObjectDoesNotExist
+from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
-from .serializers import UserSerializer
-from .models import CustomUser
+from .serializers import UserSerializer, RecipeSerializer
+from .models import CustomUser, Recipe
 # Create your views here.
 
 @api_view(['POST'])
@@ -50,4 +51,13 @@ def logout(request):
             return Response({'message': 'Succcessfully logged out.'}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'erroe': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
+
+
+# CRUD Operations
+class RecipeList(generics.ListCreateAPIView):
+    queryset = Recipe.objects.all()
+    serializer_class = RecipeSerializer
+
+class RecipeDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Recipe.objects.all()
+    serializer_class = RecipeSerializer
