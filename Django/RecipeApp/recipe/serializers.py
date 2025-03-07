@@ -33,6 +33,6 @@ class ProfileSerializer(serializers.ModelSerializer):
     
     def get_image(self, obj):
         if obj.image:
-            return obj.image
+            return self.context['request'].build_absolute_uri(obj.image.url)
         return 'https://static.productionready.io/images/smiley-cyrus.jpg'
     

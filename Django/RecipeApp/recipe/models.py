@@ -12,7 +12,7 @@ class Recipe(models.Model):
     "Model for Storing Recipes"
     title = models.CharField(max_length=50)
     chef = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    recipe_image = models.ImageField(upload_to='recipe_images')
+    recipe_image = models.ImageField(upload_to='recipe_images', blank=True, null=True)
     ingredients = models.TextField()
     instructions = models.TextField()
     servings = models.IntegerField()
