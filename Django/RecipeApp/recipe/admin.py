@@ -7,7 +7,7 @@ class RecipeAdmin(admin.ModelAdmin):
     "Display Recipe Model in the Admin Page."
     list_display = ['title', 'chef', 'recipe_image', 'servings']
     list_filter = ['title', 'chef']
-    search_fields = ['title']
+    search_fields = ['title', 'chef']
     # prepopulated_fields = {'slug': ('title',)}
     show_facets = admin.ShowFacets.ALWAYS
 
