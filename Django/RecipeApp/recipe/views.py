@@ -1,15 +1,13 @@
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 from django.core.exceptions import ObjectDoesNotExist
-from rest_framework import generics
-from rest_framework import status
-from rest_framework import filters
+from rest_framework import filters, generics, status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
-from .serializers import UserSerializer, ProfileSerializer, RecipeSerializer
-from .models import CustomUser, Profile, Recipe
+from .serializers import UserSerializer, ProfileSerializer, RecipeSerializer, SaveSerializer
+from .models import CustomUser, Profile, Recipe, Save
 # Create your views here.
 
 @api_view(['POST'])
@@ -93,3 +91,28 @@ class RecipeList(generics.ListCreateAPIView):
 class RecipeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
+
+class SaveCreateView(generics.CreateAPIView):
+    queryset = Save.objects.all()
+    serializer_class = SaveSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class SaveListView(generics.ListAPIView):
+    serializer_class = RecipeSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        # Return posts bookmarked by the current user
+        return Recipe.objects.filter(saves__user=self.request.user)
+
+class SaveDeleteView(generics.DestroyAPIView):
+    queryset = Save.objects.all()
+    serializer_class = SaveSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        # Ensure users can only delete their own bookmarks
+        return Save.objects.filter(user=self.request.user)

@@ -9,4 +9,7 @@ urlpatterns = [
     # CRUD Operations
     path('', RecipeList.as_view(), name='recipe_list'),
     path('<int:pk>/', RecipeDetail.as_view(), name='recipe_detail'),
+    path('save/', SaveCreateView.as_view(), name='save-recipe'),
+    path('save/list/', SaveListView.as_view(), name='save-list'),
+    path('save/delete/<int:pk>/', SaveDeleteView.as_view(), name='save-delete')
 ]

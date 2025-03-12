@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUser, Profile, Recipe
+from .models import CustomUser, Profile, Recipe, Save
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,6 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
         return user
     
 class RecipeSerializer(serializers.ModelSerializer):
+    total_number_of_bookmarks = serializers.SerializerMethodField()
     class Meta:
         model = Recipe
         fields = ('title', 'chef', 'recipe_image', 'ingredients', 'servings', 'instructions')
@@ -35,4 +36,10 @@ class ProfileSerializer(serializers.ModelSerializer):
         if obj.image:
             return self.context['request'].build_absolute_uri(obj.image.url)
         return 'https://static.productionready.io/images/smiley-cyrus.jpg'
-    
+
+class SaveSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
+    recipe = serializers.PrimaryKeyRelatedField(queryset=Recipe.objects.all())
+    class Meta:
+        model = Save
+        fields = ['id', 'user', 'recipe', 'created_at']
