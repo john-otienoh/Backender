@@ -41,6 +41,12 @@ class RegisterForm(UserCreationForm):
                                                                   'id': 'password',
                                                                   }))
 
+    def clean_email(self):
+        data = self.cleaned_data['email']
+        if User.objects.filter(email=data).exists():
+            raise forms.ValidationError("Email Already in use.")
+        return data
+    
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
@@ -77,7 +83,12 @@ class UpdateUserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email']
-
+    def clean_data(self):
+        data = self.cleaned_data['email']
+        qs = User.objects.exclude(id=self.instance.id).filter(email=data)
+        if qs.exists():
+            raise forms.ValidationError("Email already in use.")
+        return data
 
 class UpdateProfileForm(forms.ModelForm):
     avatar = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}))

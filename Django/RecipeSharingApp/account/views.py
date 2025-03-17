@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views import View
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 
 from .forms import RegisterForm, LoginForm, UpdateUserForm, UpdateProfileForm
 
@@ -37,6 +38,10 @@ class RegisterView(View):
             form.save()
 
             username = form.cleaned_data.get('username')
+            to = [form.cleaned_data.get('email')]
+            subject = "Account Registration Email"
+            message = f"Hello {username} thanks for registering at RecipeShare"
+            send_mail(subject=subject, message=message, from_email=None, recipient_list=to, fail_silently=False)
             messages.success(request, f'Account created for {username}')
 
             return redirect(to='login')
