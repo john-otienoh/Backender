@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordChangeView
 from django.contrib import messages
@@ -8,16 +8,16 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 
 from .forms import RegisterForm, LoginForm, UpdateUserForm, UpdateProfileForm
-
+from .models import Recipe
 
 def home(request):
-    return render(request, 'users/home.html')
+    return render(request, 'Recipes/recipe/home.html')
 
 
 class RegisterView(View):
     form_class = RegisterForm
     initial = {'key': 'value'}
-    template_name = 'users/register.html'
+    template_name = 'Recipes/registration/register.html'
 
     def dispatch(self, request, *args, **kwargs):
         # will redirect to the home page if a user tries to access the register page while logged in
@@ -68,9 +68,9 @@ class CustomLoginView(LoginView):
 
 
 class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
-    template_name = 'users/password_reset.html'
-    email_template_name = 'users/password_reset_email.html'
-    subject_template_name = 'users/password_reset_subject'
+    template_name = 'Recipes/registration/password_reset.html'
+    email_template_name = 'Recipes/registration/password_reset_email.html'
+    subject_template_name = 'Recipes/registration/password_reset_subject'
     success_message = "We've emailed you instructions for setting your password, " \
                       "if an account exists with the email you entered. You should receive them shortly." \
                       " If you don't receive an email, " \
@@ -79,7 +79,7 @@ class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
 
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
-    template_name = 'users/change_password.html'
+    template_name = 'Recipes/registration/change_password.html'
     success_message = "Successfully Changed Your Password"
     success_url = reverse_lazy('users-home')
 
@@ -99,4 +99,20 @@ def profile(request):
         user_form = UpdateUserForm(instance=request.user)
         profile_form = UpdateProfileForm(instance=request.user.profile)
 
-    return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
+    return render(request, 'Recipes/registration/profile.html', {'user_form': user_form, 'profile_form': profile_form})
+
+
+def recipe_list(request):
+    recipes = Recipe.objects.all()
+    return render(
+        request,
+        'Recipes/recipes/list.html',
+        {'recipes': recipes}
+    )
+def recipe_detail(request, recipe, day):
+    recipe = get_object_or_404(Recipe, slug=recipe, posted__day=day)
+    return (
+        request,
+        'Recipes/recipe/detail.html',
+        {"recipe": recipe}
+    )
