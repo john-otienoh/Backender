@@ -116,3 +116,13 @@ def recipe_detail(request, recipe, day):
         'Recipes/recipe/detail.html',
         {"recipe": recipe}
     )
+
+def create_recipe(request):
+    return render(request, 'Recipes/recipe/create.html')
+
+def update_recipe(request):
+    return render(request, 'Recipes/recipe/update.html')
+
+def delete_recipe(request):
+    return render(request, 'Recipes/recipe/delete.html')
+
