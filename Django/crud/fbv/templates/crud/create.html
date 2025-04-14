@@ -1,0 +1,40 @@
+{% extends "../base.html" %} 
+{% block title %}Add Employee{% endblock %}
+
+{% block content %}
+  <h2>Add New Employee</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="exampleInputEmployeeNumber" class="form-label">Employee Number</label>
+      {{ form.employee_number }}
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputName" class="form-label">Name</label>
+      {{ form.name }}
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Email address</label>
+      {{ form.email }}
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputContact" class="form-label">Contact</label>
+      {{ form.contact }}
+    </div>
+    <div class="mb-3">
+      <label class=for="exampleInputGender" class="form-label">Gender</label>
+      <div class="d-flex flex-column"> 
+        {% for choice in form.gender|slice:":2" %}
+        <div class="form-check mr-3">
+          {{ choice.tag }}
+          <label class="form-check-label" for="{{ choice.id_for_label }}">
+              {{ choice.choice_label }}
+          </label>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+ 
+  </form>
+{% endblock %}
