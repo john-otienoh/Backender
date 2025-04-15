@@ -1,0 +1,28 @@
+{% extends "../base.html" %} 
+{% block title %}{{ employee.name|title }} Details{% endblock %} 
+{% block content %}
+<div class="card border-dark">
+    <div class="card-header">Employee Details</div>
+    <div class="card-body row g-3">
+        <h5 class="card-title">{{ employee.name|title }}</h5>
+        <div class="col">
+          <p class="card-text">Employee Id: {{ employee.employee_number }}</p>
+        </div>
+        <div class="col">
+          <p class="card-text">Email: {{ employee.email }}</p>
+        </div>
+        <div class="col">
+          <p class="card-text">Contact: {{ employee.contact }}</p>
+        </div>
+        <div class="col">
+          <p class="card-text">Gender: {{ employee.get_gender_display }}</p>
+        </div>
+        <div class="card-footer bg-transparent border-secondary">
+          <a class="btn btn-primary" href="{% url 'gbv:list' %}">Home</a>
+          <a class="btn btn-secondary" href="{% url 'gbv:edit' employee.pk %}">Edit</a>
+          <a class="btn btn-danger" href="{% url 'gbv:delete' employee.pk %}">Delete</a>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

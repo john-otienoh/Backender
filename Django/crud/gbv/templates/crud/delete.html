@@ -1,0 +1,21 @@
+{% extends "../base.html" %} 
+{% block title %}Edit {{ employee.name|title }} Details{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    Remove Employee
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Are you sure you want to remove "{{ employee.name }}"?</h5>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Remove</button>
+    </form>
+  </div>
+  <div class="card-footer bg-transparent border-secondary">
+    <a class="btn btn-primary" href="{% url 'gbv:list' %}">Home</a>
+    <a class="btn btn-secondary" href="{% url 'gbv:detail' employee.pk %}">Details</a>
+  </div>
+</div>
+{% endblock %}
