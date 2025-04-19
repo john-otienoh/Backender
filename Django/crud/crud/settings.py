@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Local Apps
-    # "fbv.apps.FbvConfig",
+    "fbv.apps.FbvConfig",
     "cbv.apps.CbvConfig",
     "gbv.apps.GbvConfig",
 ]

@@ -45,7 +45,7 @@ class EmployeeForm(forms.ModelForm):
                 "placeholder": "Enter employee number",
                 "min": "1",
                 "max": "1000",
-                "id": "exampleInputEmployeeNumber"
+                "id": "exampleInputEmployeeNumber",
             }
         ),
     )
