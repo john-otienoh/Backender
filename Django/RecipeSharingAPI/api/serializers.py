@@ -30,6 +30,8 @@ class RecipeSerializer(serializers.ModelSerializer):
             "ingredients",
             "cooking_time",
             "category",
+            "created_at",
+            "updated_at",
         ]
 
 
