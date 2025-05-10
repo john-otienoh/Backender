@@ -1,9 +1,9 @@
-from rest_framework import generics
+from rest_framework import filters
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-
-# from rest_framework.permissions import IsAuthenticated
+from django.db.models import Q
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from .serializers import *
 from .models import *
@@ -78,4 +78,32 @@ def delete_recipe(request, pk):
     recipe.delete()
     return Response(
         {"message": "Recipe deleted successfully"}, status=status.HTTP_204_NO_CONTENT
+    )
+
+
+@api_view(["GET"])
+def search(request, query=None):
+
+    search_query = query or request.GET.get("q", "").strip()
+    if not search_query:
+        return Response(
+            {"error": "Please provide a search query"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    results = Recipe.objects.filter(
+        Q(title__icontains=search_query) | Q(chef__username__icontains=search_query)
+    ).distinct()
+    if not results.exists():
+        return Response(
+            {
+                "message": f"No recipes or chef's found matching '{search_query}'",
+            },
+            status=status.HTTP_200_OK,
+        )
+
+    serializer = RecipeSerializer(results, many=True)
+    return Response(
+        # {"count": results.count(), "results": serializer.data},
+        # status=status.HTTP_200_OK,
+        serializer.data
     )
