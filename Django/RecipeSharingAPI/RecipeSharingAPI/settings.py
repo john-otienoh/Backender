@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "django_filters",
     # Local Apps
     "account.apps.AccountConfig",
+    "community.apps.CommunityConfig",
     "api.apps.ApiConfig",
 ]
 
