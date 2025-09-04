@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Blog | Homepage{% endblock title %}
+{% block content %}
+<header class="py-5 bg-light border-bottom mb-4">
+  <div class="container">
+    <div class="text-center my-5">
+      <h1 class="fw-bolder">Welcome to Blog Home!</h1>
+      <p class="lead mb-0">A Bootstrap 5 starter layout for your next blog homepage</p>
+    </div>
+  </div>
+</header>
+<div class="container">
+    <div class="row">
+        <!-- Blog entries-->
+        <div class="col-lg-8">
+            <div class="row">
+            <!-- Nested row for non-featured blog posts-->
+            {% for post in posts %}
+                {% if forloop.counter0|divisibleby:2 %}
+                   <div class="col-lg-6">
+                {% endif %}
+                <!-- Featured blog post-->
+                <div class="card mb-4">
+                    <a href="#!"><img class="card-img-top" src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" alt="..." /></a>
+                    <div class="card-body">
+                        <div class="small text-muted">
+                            Posted on {{ post.publish }} by
+                            <span class="author-badge"><i class="fas fa-user me-1"></i>{{ post.author }}</span>
+                        </div>
+                        <a href="{{ post.get_absolute_url }}" class="text-decoration-none">
+                            <h2 class="card-title">{{ post.title }}</h2>
+                        </a>
+                        <p class="card-text">{{ post.body|truncatewords:30|linebreaks }}</p>
+                        <p class="card-text">
+                            <span class="text-muted small"><i class="far fa-clock me-1"></i>6 min read</span>
+                        </p>
+                        <a class="btn btn-primary" href="#!">Read more →</a>
+                        
+                    </div>
+                </div>
+                {% if forloop.counter|divisibleby:2 or forloop.last %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        
+        <!-- Corrected Pagination -->
+        {% if is_paginated %}
+        <div class="pagination">
+          <span class="step-links">
+            {% if page_obj.has_previous %}
+              <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+            <span class="current">
+              Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+            {% if page_obj.has_next %}
+              <a href="?page={{ page_obj.next_page_number }}">Next</a>
+            {% endif %}
+          </span>
+        </div>
+        {% endif %}
+        
+        </div>
+        {% include "include/sidebar.html" %}
+    </div>
+</div>
+{% endblock content %}
