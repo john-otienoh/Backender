@@ -1,0 +1,15 @@
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Add a comment</h5>
+    </div>
+    <div class="card-body">
+        <form action="{% url 'blog:comment' post.id %}" method="post">
+        {% csrf_token %}
+            <div class="mb-3">
+                <label for="commentTextarea" class="form-label">Comment</label>
+                <textarea name="body" class="form-control" id="commentTextarea" rows="3" placeholder="Your comment"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>

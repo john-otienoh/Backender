@@ -10,60 +10,36 @@
     </div>
   </div>
 </header>
-<div class="container">
-    <div class="row">
-        <!-- Blog entries-->
-        <div class="col-lg-8">
-            <div class="row">
-            <!-- Nested row for non-featured blog posts-->
-            {% for post in posts %}
-                {% if forloop.counter0|divisibleby:2 %}
-                   <div class="col-lg-6">
-                {% endif %}
-                <!-- Featured blog post-->
-                <div class="card mb-4">
-                    <a href="#!"><img class="card-img-top" src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" alt="..." /></a>
-                    <div class="card-body">
-                        <div class="small text-muted">
-                            Posted on {{ post.publish }} by
-                            <span class="author-badge"><i class="fas fa-user me-1"></i>{{ post.author }}</span>
-                        </div>
-                        <a href="{{ post.get_absolute_url }}" class="text-decoration-none">
-                            <h2 class="card-title">{{ post.title }}</h2>
-                        </a>
-                        <p class="card-text">{{ post.body|truncatewords:30|linebreaks }}</p>
-                        <p class="card-text">
-                            <span class="text-muted small"><i class="far fa-clock me-1"></i>6 min read</span>
-                        </p>
-                        <a class="btn btn-primary" href="#!">Read more →</a>
-                        
-                    </div>
+
+<section class="post-loop py-3 mb-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="list-group mb-3">
+                    {% for post in posts %}
+                    <a href="{{ post.get_absolute_url }}" class="list-group-item list-group-item-action text-dark">
+                        <article class="row align-item-center">
+                            <div class="col-md-3">
+                              <img src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" alt="..." class="img-fluid rounded">
+                            </div>
+                            <div class="col-md-9">
+                              <h3 class="fs-5 mt-2">{{ post.title }}</h3>                              
+                              <p class="fw-light small">{{ post.body|truncatewords:20|linebreaks }}</p>
+                              <p class="text-secondary small">
+                                <strong>Author:</strong>{{ post.author }}
+                                <strong>Posted on:</strong> {{ post.publish }}
+                              </p>
+                            </div>
+                        </article>
+                    </a> 
+                    {% endfor %}
                 </div>
-                {% if forloop.counter|divisibleby:2 or forloop.last %}
-                    </div>
-                {% endif %}
-            {% endfor %}
+                {% include "include/pagination.html" %}
+            </div>
+            {% include 'include/sidebar.html' %}
+            
         </div>
         
-        <!-- Corrected Pagination -->
-        {% if is_paginated %}
-        <div class="pagination">
-          <span class="step-links">
-            {% if page_obj.has_previous %}
-              <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
-            {% endif %}
-            <span class="current">
-              Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-            </span>
-            {% if page_obj.has_next %}
-              <a href="?page={{ page_obj.next_page_number }}">Next</a>
-            {% endif %}
-          </span>
-        </div>
-        {% endif %}
-        
-        </div>
-        {% include "include/sidebar.html" %}
-    </div>
-</div>
+    </div> 
+</section>
 {% endblock content %}

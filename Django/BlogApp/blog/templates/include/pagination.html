@@ -1,29 +1,30 @@
-{% comment %} <nav aria-label="Pagination">
+<nav aria-label="Pagination">
+  <ul class="pagination justify-content-center my-4">
+  {% if posts.has_previous %}
+      <li class="page-item">
+        <a href="?page={{ posts.previous_page_number }}" class="page-link" tabindex="-1">Previous</a>
+      </li>
+    {% endif %}
+
+    {# Page Numbers #}
+    {% for num in posts.paginator.page_range %}
+      {% if posts.number == num %}
+        <li class="page-item active" aria-current="page">
+          <span class="page-link">{{ num }}</span>
+        </li>
+      {% else %}
+        <li class="page-item">
+          <a href="?page={{ num }}" class="page-link">{{ num }}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+
+    {# Next Link #}
+    {% if posts.has_next %}
+      <li class="page-item">
+        <a href="?page={{ posts.next_page_number }}" class="page-link">Next</a>
+      </li>
+    {% endif %}
+  </ul>
   <hr class="my-0" />
-  <div class="pagination justify-content-center my-4"> 
-    <span class="step-links"> 
-      {% if page.has_previous %} 
-        <a href="?page=1">&laquo; first</a> 
-        <a href="?page={{ page.previous_page_number }}">previous</a> 
-      {% endif %} 
-      <span class="current"> Page {{ page.number }} of {{ page.paginator.num_pages }}. </span> 
-        {% if page.has_next %} 
-        <a href="?page={{ page.next_page_number }}">next</a> 
-        <a href="?page={{ page.paginator.num_pages }}">last &raquo;</a> 
-        {% endif %} 
-    </span> 
-  </div>
-</nav> {% endcomment %}
-<div class="pagination">
-  <span class="step-links">
-    {% if page.has_previous %}
-      <a href="{% querystring page=page.previous_page_number %}">Previous</a>
-    {% endif %}
-    <span class="current">
-      Page {{ page.number }} of {{ page.paginator.num_pages }}.
-    </span>
-    {% if page.has_next %}
-      <a href="{% querystring page=page.next_page_number %}">Next</a>
-    {% endif %}
-  </span>
-</div>
+</nav>
