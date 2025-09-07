@@ -38,14 +38,19 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
+    
     # Local Apps
     "blog.apps.BlogConfig",
+
     # Third Party Apps
     "django_browser_reload",
     # "taggit",
 ]
 
 MIDDLEWARE = [
+
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -135,3 +140,5 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
+
+SITE_ID = 1
