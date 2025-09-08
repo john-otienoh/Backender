@@ -26,10 +26,12 @@
           <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Blog</a></li>
         </ul>
         <div class="d-flex align-items-center">
-          <form class="w-100 me-3">
-            <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+          <form class="d-flex" role="search" method="POST" action="{% url 'blog:search' %}">
+            {% csrf_token %}
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query">
+            <button class="btn btn-outline-success" type="submit">Search</button>
           </form>
-          <div class="flex-shrink-0 dropdown">
+          <div class="flex-shrink-0 dropdown p-2">
             <a href="#" class="d-block link-light text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
               <img src="{% static 'images/Avatar.PNG' %}" alt="mdo" width="40" height="40" class="rounded-circle">
             </a>

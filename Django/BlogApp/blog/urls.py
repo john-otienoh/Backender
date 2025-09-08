@@ -12,6 +12,7 @@ urlpatterns = [
         views.post_detail,
         name="detail",
     ),
+    path("search/", views.post_search, name='search'),
     path('feed/', LatestPostsFeed(), name='feed'),
     path( '<int:post_id>/comment/', views.post_comment, name='comment' ),
 ]

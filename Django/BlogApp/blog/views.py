@@ -6,6 +6,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from .models import Post, Comment
 from .forms import CommentForm, EmailPostForm
 from django.core.mail import send_mail
+from django.db.models import Q
 
 # Create your views here.
 
@@ -81,3 +82,13 @@ def post_comment(request, post_id):
         "blog/comment.html",
         {"post": post, "form": form, "comment": comment},
     )
+
+def post_search(request):
+    if request.method == 'POST':
+        query = request.POST["query"]
+        results = Post.published.filter(
+            Q(title__icontains=query)
+            | Q(body__icontains=query)
+        )
+        return render(request, 'blog/search.html', {'query':query, 'results': results})
+    return render(request, 'blog/search.html')

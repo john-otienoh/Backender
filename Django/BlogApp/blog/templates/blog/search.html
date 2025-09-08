@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Search Results{% endblock title %}
+{% block content %}
+{% if qeury %}
+<h1>Searching for {{ query }}...</h1>
+    {% if results %}
+        <section class="post-loop py-3 mb-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="list-group mb-3">
+                            {% for result in results %}
+                            <a href="{{ post.get_absolute_url }}" class="list-group-item list-group-item-action text-dark">
+                                <article class="row align-item-center">
+                                    <div class="col-md-3">
+                                      <img src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" alt="..." class="img-fluid rounded">
+                                    </div>
+                                    <div class="col-md-9">
+                                      <h3 class="fs-5 mt-2">{{ post.title }}</h3>                              
+                                      <p class="fw-light small">{{ post.body|truncatewords:20|linebreaks }}</p>
+                                      <p class="text-secondary small">
+                                        <strong>Author:</strong>{{ post.author }}
+                                        <strong>Posted on:</strong> {{ post.publish }}
+                                      </p>
+                                    </div>
+                                </article>
+                            </a> 
+                            {% endfor %}
+                        </div>
+                        {% include "include/pagination.html" %}
+                    </div>
+                    {% include 'include/sidebar.html' %}
+                </div>
+            </div> 
+        </section>
+    {% else %} 
+        <p>There are no results for your query "{{ query }}".</p>
+    {% endif %}
+{% else %}
+  <div class="alert alert-warning" role="alert">
+    Please enter a Search query.......<a class="alert-link" href="{% url 'blog:list' %}">Click here to go back to Home.</a>
+  </div>    
+{% endif %}
+{% endblock content %}
