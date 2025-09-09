@@ -43,11 +43,19 @@ INSTALLED_APPS = [
     
     # Local Apps
     "blog.apps.BlogConfig",
+    "account.apps.AccountConfig",
 
     # Third Party Apps
     "django_browser_reload",
+    'crispy_forms',
+    'crispy_bootstrap5'
     # "taggit",
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+AUTH_USER_MODEL = 'account.User' 
 
 MIDDLEWARE = [
 
@@ -142,3 +150,9 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 
 SITE_ID = 1
+
+LOGIN_URL = reverse_lazy('accounts:login')
+LOGOUT_REDIRECT_URL = LOGIN_URL
+LOGIN_REDIRECT_URL = reverse_lazy('blog:home')
+MAX_LOGIN_ATTEMPTS = 5
+LOGIN_ATTEMPTS_TIME_LIMIT = 0

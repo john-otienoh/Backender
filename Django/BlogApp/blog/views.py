@@ -90,5 +90,6 @@ def post_search(request):
             Q(title__icontains=query)
             | Q(body__icontains=query)
         )
+        
         return render(request, 'blog/search.html', {'query':query, 'results': results})
     return render(request, 'blog/search.html')
