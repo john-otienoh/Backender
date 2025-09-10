@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from decouple import config
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -151,8 +152,8 @@ DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 
 SITE_ID = 1
 
-LOGIN_URL = reverse_lazy('accounts:login')
+LOGIN_URL = reverse_lazy('account:login')
 LOGOUT_REDIRECT_URL = LOGIN_URL
-LOGIN_REDIRECT_URL = reverse_lazy('blog:home')
+LOGIN_REDIRECT_URL = reverse_lazy('blog:list')
 MAX_LOGIN_ATTEMPTS = 5
 LOGIN_ATTEMPTS_TIME_LIMIT = 0
