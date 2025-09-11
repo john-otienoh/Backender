@@ -1,9 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+
 # Create your models here.
 
+
 class UserManager(BaseUserManager):
-    def create_user(self, email, password=None, is_staff=False, is_admin=False, is_active=True):
+    def create_user(
+        self, email, password=None, is_staff=False, is_admin=False, is_active=True
+    ):
         if not email:
             raise ValueError("User Must have an email Address")
         if not password:
@@ -15,7 +19,7 @@ class UserManager(BaseUserManager):
         user_obj.staff = is_staff
         user_obj.save(using=self._db)
         return user_obj
-    
+
     def create_staffuser(self, email, password=None):
         user = self.create_user(email, password=password, is_staff=True)
         return user
@@ -23,7 +27,8 @@ class UserManager(BaseUserManager):
     def create_superuser(self, email, password=None):
         user = self.create_user(email, password=password, is_staff=True, is_admin=True)
         return user
-    
+
+
 class User(AbstractBaseUser):
     email = models.EmailField(unique=True, max_length=255)
     is_active = models.BooleanField(default=True)
@@ -31,7 +36,7 @@ class User(AbstractBaseUser):
     admin = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
 
     objects = UserManager()
 
@@ -61,4 +66,4 @@ class LoginAttempt(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return 'user: {}, attempts: {}'.format(self.user.email, self.login_attempts)
+        return "user: {}, attempts: {}".format(self.user.email, self.login_attempts)

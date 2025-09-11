@@ -39,27 +39,24 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'django.contrib.sites',
-    'django.contrib.sitemaps',
-    
+    "django.contrib.sites",
+    "django.contrib.sitemaps",
     # Local Apps
     "blog.apps.BlogConfig",
     "account.apps.AccountConfig",
-
     # Third Party Apps
     "django_browser_reload",
-    'crispy_forms',
-    'crispy_bootstrap5'
+    "crispy_forms",
+    "crispy_bootstrap5",
     # "taggit",
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
-AUTH_USER_MODEL = 'account.User' 
+AUTH_USER_MODEL = "account.User"
 
 MIDDLEWARE = [
-
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -152,8 +149,8 @@ DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 
 SITE_ID = 1
 
-LOGIN_URL = reverse_lazy('account:login')
+LOGIN_URL = reverse_lazy("account:login")
 LOGOUT_REDIRECT_URL = LOGIN_URL
-LOGIN_REDIRECT_URL = reverse_lazy('blog:list')
+LOGIN_REDIRECT_URL = reverse_lazy("blog:list")
 MAX_LOGIN_ATTEMPTS = 5
 LOGIN_ATTEMPTS_TIME_LIMIT = 0

@@ -38,9 +38,12 @@ def post_detail(request, year, month, day, post):
     )
     comments = post.comments.filter(active=True)
     form = CommentForm()
-    return render(request, "blog/detail.html", {"post": post, 'comments': comments, 'form': form})
+    return render(
+        request, "blog/detail.html", {"post": post, "comments": comments, "form": form}
+    )
 
 
+@login_required
 def post_share(request, post_id):
     post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
     sent = False
@@ -68,6 +71,7 @@ def post_share(request, post_id):
     )
 
 
+@login_required
 def post_comment(request, post_id):
     post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLISHED)
     comment = None
@@ -83,13 +87,13 @@ def post_comment(request, post_id):
         {"post": post, "form": form, "comment": comment},
     )
 
+
 def post_search(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         query = request.POST["query"]
         results = Post.published.filter(
-            Q(title__icontains=query)
-            | Q(body__icontains=query)
+            Q(title__icontains=query) | Q(body__icontains=query)
         )
-        
-        return render(request, 'blog/search.html', {'query':query, 'results': results})
-    return render(request, 'blog/search.html')
+
+        return render(request, "blog/search.html", {"query": query, "results": results})
+    return render(request, "blog/search.html")
