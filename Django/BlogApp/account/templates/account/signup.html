@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}SignUp Page{% endblock title %}
+{% block content %}
+<div class="container py-5">
+    {% include 'account/messages.html' %}
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow">
+        <div class="card-body p-5">
+          <h3 class="card-title text-center mb-4">Create Account</h3>
+          <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}" />
+            <!-- Email input -->
+            <div class="form-floating mb-3">
+              {{ form.email }}
+              <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+            </div>
+            <!-- Password input -->
+            <div class="form-floating mb-3">
+              {{ form.password1 }}
+              <label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
+            </div>
+            <!--Confirm Password input -->
+            <div class="form-floating mb-3">
+              {{ form.password2 }}
+              <label for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label>
+            </div>
+            <div class="mb-4">
+              <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                  <label class="form-check-label" for="termsCheck">
+                      I agree to the <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policy</a>
+                  </label>
+              </div>
+            </div>
+            <!-- Submit button -->
+            <input type="submit" name="submit" id="submit" class="form-submit btn btn-primary w-100 mb-4" value="Sign up"/>
+            {% comment %} <button type="button" class="btn btn-primary w-100 mb-4">Sign in</button> {% endcomment %}
+            <!-- Register buttons -->
+            <div class="text-center">
+                <p>Have already an account ? <a href="{% url 'account:login' %}">Login Here</a></p>
+                <p>or sign up with:</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <button type="button" class="btn btn-outline-primary btn-floating">
+                        <i class="fab fa-facebook-f"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-danger btn-floating">
+                        <i class="fab fa-google"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-info btn-floating">
+                        <i class="fab fa-twitter"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-dark btn-floating">
+                        <i class="fab fa-github"></i>
+                    </button>
+                </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
