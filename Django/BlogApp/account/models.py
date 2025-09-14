@@ -1,4 +1,6 @@
 from django.db import models
+from django.conf import settings
+from PIL import Image
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 # Create your models here.
@@ -67,3 +69,26 @@ class LoginAttempt(models.Model):
 
     def __str__(self):
         return "user: {}, attempts: {}".format(self.user.email, self.login_attempts)
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+    )
+    avatar = models.ImageField(default='default.jpg', upload_to='users/%Y/%m/%d/')
+    bio = models.TextField()
+
+    def __str__(self):
+        return self.user.username
+
+    # resizing images
+    def save(self, *args, **kwargs):
+        super().save()
+
+        img = Image.open(self.avatar.path)
+
+        if img.height > 100 or img.width > 100:
+            new_img = (100, 100)
+            img.thumbnail(new_img)
+            img.save(self.avatar.path)
+            
