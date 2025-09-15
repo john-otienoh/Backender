@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from books.models import Book
 
+
 class APITests(APITestCase):
     @classmethod
     def setUpTestData(cls):
@@ -13,6 +14,7 @@ class APITests(APITestCase):
             author="William S. Vincent",
             isbn="9781735467221",
         )
+
     def test_api_listview(self):
         response = self.client.get(reverse("books:home"))
         self.assertEqual(response.status_code, status.HTTP_200_OK)

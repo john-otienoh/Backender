@@ -42,11 +42,11 @@
                 <p>Not a member? <a href="{% url 'account:register' %}">Register</a></p>
                 <p>or sign up with:</p>
                 <div class="d-flex justify-content-center gap-3">
-                    <button type="button" class="btn btn-outline-primary btn-floating">
-                        <i class="fab fa-facebook-f"></i>
-                    </button>
-                    <button type="button" class="btn btn-outline-danger btn-floating">
+                    <a type="button" href="{% url 'social:begin' 'google-oauth2'%}" class="btn btn-outline-primary btn-floating" >
                         <i class="fab fa-google"></i>
+                    </a>
+                    <button type="button" class="btn btn-outline-danger btn-floating">                        
+                        <i class="fab fa-facebook-f"></i>
                     </button>
                     <button type="button" class="btn btn-outline-info btn-floating">
                         <i class="fab fa-twitter"></i>

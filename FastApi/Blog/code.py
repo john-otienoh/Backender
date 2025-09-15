@@ -4,21 +4,26 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
+
 class Blog(BaseModel):
     """Post Schema"""
+
     id: int
     title: str
     body: str
     is_published: bool = True
 
-@app.get('/')
+
+@app.get("/")
 async def root():
     """Root API"""
     return {"message": "Hello World"}
 
+
 @app.get("/posts")
 async def posts():
-    return{"posts": "These are my posts"}
+    return {"posts": "These are my posts"}
+
 
 @app.post("/create")
 async def create_posts(post: Post):

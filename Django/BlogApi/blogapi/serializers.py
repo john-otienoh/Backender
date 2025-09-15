@@ -40,10 +40,12 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+
 class BlogPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = BlogPost
-        fields = ['id', 'title', 'body', 'publish', 'status', 'category', 'blog_image']
+        fields = ["id", "title", "body", "publish", "status", "category", "blog_image"]
+
 
 class UserProfileSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={"input_type": "password"}, write_only=True)

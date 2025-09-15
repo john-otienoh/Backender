@@ -4,8 +4,9 @@ from django.test import TestCase
 
 # Create your tests here.
 
+
 class BookTests(TestCase):
-    
+
     @classmethod
     def setUpTestData(cls):
         cls.book = Book.objects.create(
@@ -26,4 +27,3 @@ class BookTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "excellent subtitle")
         self.assertTemplateUsed(response, "books/booklist.html")
-

@@ -32,43 +32,33 @@ class BlogPost(models.Model):
         ("Technology", "Technology"),
         ("Lifestyle", "Lifestyle"),
     )
+
     class Status(models.TextChoices):
-        DRAFT = 'DF', 'Draft'
-        PUBLISHED = 'PB', 'Published'
+        DRAFT = "DF", "Draft"
+        PUBLISHED = "PB", "Published"
 
     title = models.CharField(max_length=250)
-    slug = models.SlugField(
-        max_length=250,
-        unique=True,
-        blank=True
-    )
+    slug = models.SlugField(max_length=250, unique=True, blank=True)
     author = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name='blog_posts'
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="blog_posts"
     )
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    status = models.CharField(
-        max_length=2,
-        choices=Status,
-        default=Status.DRAFT
-    )
+    status = models.CharField(max_length=2, choices=Status, default=Status.DRAFT)
     category = models.CharField(max_length=30, choices=CATEGORY, blank=True, null=True)
-    blog_image = models.ImageField(upload_to='blog_images', default='blog.png')
-   
+    blog_image = models.ImageField(upload_to="blog_images", default="blog.png")
 
     class Meta:
-        ordering = ['-publish']
+        ordering = ["-publish"]
         indexes = [
-            models.Index(fields=['-publish']),
+            models.Index(fields=["-publish"]),
         ]
 
     def __str__(self):
         return self.title
-    
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)

@@ -11,7 +11,7 @@ from django.utils import timezone
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from .forms import RegistrationForm, LoginForm, UserEditForm, ProfileEditForm
-from .models import LoginAttempt, User
+from .models import LoginAttempt, User, Profile
 from .token import account_activation_token
 from .decorators import unauthenticated_user
 from .utils import send_user_email
@@ -26,6 +26,7 @@ def signup_page(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
+            Profile.objects.create(user=user)
             to_email = form.cleaned_data.get("email")
             current_site = get_current_site(request)
             mail_subject = "Activate your account"
@@ -154,19 +155,26 @@ def logout_view(request):
     logout(request)
     return redirect(settings.LOGOUT_REDIRECT_URL)
 
+
 @login_required
 def profile(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         user_form = UserEditForm(request.POST, instance=request.user)
-        profile_form = ProfileEditForm(request.POST, request.FILES, instance=request.user.profile)
+        profile_form = ProfileEditForm(
+            request.POST, request.FILES, instance=request.user.profile
+        )
 
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            messages.success(request, 'Your profile is updated successfully')
-            return redirect(to='profile')
+            messages.success(request, "Your profile is updated successfully")
+            return redirect(to="profile")
     else:
         user_form = UserEditForm(instance=request.user)
         profile_form = ProfileEditForm(instance=request.user.profile)
 
-    return render(request, 'account/profile.html', {'user_form': user_form, 'profile_form': profile_form})
+    return render(
+        request,
+        "account/profile.html",
+        {"user_form": user_form, "profile_form": profile_form},
+    )

@@ -13,7 +13,7 @@ db.blogs = {
         id=1,
         title="The Hobbit",
         body="A blog by J.R.R. Tolkien about the Hobbit",
-        is_published=False
+        is_published=False,
     ),
     2: Blog(
         id=2,
@@ -25,7 +25,7 @@ db.blogs = {
         id=3,
         title="The Return of the King",
         body="A blog by J.R.R. Tolkien about the J.R.R. Tolkien about the Return of the King",
-        is_published=True
+        is_published=True,
     ),
 }
 
@@ -33,23 +33,20 @@ db.blogs = {
 @router.post("/", status_code=status.HTTP_201_CREATED)
 async def create_blog(blog: Blog):
     db.add_blog(blog)
-    return JSONResponse(
-        status_code=status.HTTP_201_CREATED, content=blog.model_dump()
-    )
+    return JSONResponse(status_code=status.HTTP_201_CREATED, content=blog.model_dump())
+
 
 @router.get("/{blog_id}", response_model=Blog, status_code=status.HTTP_200_OK)
 async def get_blog(blog_id: int):
     blog = db.blogs.get(blog_id)
     if not blog:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, 
-            detail="blog not found"
+            status_code=status.HTTP_404_NOT_FOUND, detail="blog not found"
         )
     return blog
 
-@router.get(
-    "/", response_model=OrderedDict[int, Blog], status_code=status.HTTP_200_OK
-)
+
+@router.get("/", response_model=OrderedDict[int, Blog], status_code=status.HTTP_200_OK)
 async def get_blogs() -> OrderedDict[int, Blog]:
     return db.get_blogs()
 

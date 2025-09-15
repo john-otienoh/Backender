@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from .models import Profile
+
 User = get_user_model()
 
 
@@ -123,19 +124,41 @@ class RegistrationForm(forms.ModelForm):
             user.is_active = False
             user.save()
         return user
+    
+    def clean_email(self):
+        data = self.cleaned_data['email']
+        if User.objects.filter(email=data).exists():
+            raise forms.ValidationError('Email already in use.')
+        return data
 
 
 class UserEditForm(forms.ModelForm):
-    email = forms.EmailField(required=True,
-                             widget=forms.TextInput(attrs={'class': 'form-control'}))
-    class Meta: 
+    email = forms.EmailField(
+        required=True, widget=forms.TextInput(attrs={"class": "form-control"})
+    )
+    def clean_email(self):
+        data = self.cleaned_data['email']
+        qs = User.objects.exclude(
+            id=self.instance.id
+        ).filter(
+            email=data
+        )
+        if qs.exists():
+            raise forms.ValidationError('Email already in use.')
+        return data
+    class Meta:
         model = User
-        fields = ['email']
+        fields = ["email"]
+
 
 class ProfileEditForm(forms.ModelForm):
-    avatar = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}))
-    bio = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}))
-    class Meta: 
-        model = Profile 
-        fields = ['bio', 'avatar']
-        
+    avatar = forms.ImageField(
+        widget=forms.FileInput(attrs={"class": "form-control-file"})
+    )
+    bio = forms.CharField(
+        widget=forms.Textarea(attrs={"class": "form-control", "rows": 5})
+    )
+
+    class Meta:
+        model = Profile
+        fields = ["bio", "avatar"]

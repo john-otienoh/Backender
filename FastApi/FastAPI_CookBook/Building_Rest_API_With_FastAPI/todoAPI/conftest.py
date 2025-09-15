@@ -13,7 +13,4 @@ TEST_TODOS_CSV = [
         "status": "Ongoing",
     },
 ]
-TEST_TODOS = [
-    {**todo_json, "id": int(todo_json["id"])}
-    for todo_json in TEST_TODOS_CSV
-]
+TEST_TODOS = [{**todo_json, "id": int(todo_json["id"])} for todo_json in TEST_TODOS_CSV]

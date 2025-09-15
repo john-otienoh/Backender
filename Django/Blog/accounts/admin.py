@@ -5,6 +5,7 @@ from .forms import CustomUserCreationForm, CustomUserChangeForm
 
 admin.site.register(CustomUser, UserAdmin)
 
+
 class CustonUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
@@ -17,4 +18,3 @@ class CustonUserAdmin(UserAdmin):
     ]
     fieldsets = UserAdmin.fieldsets + ((None, {"fields": ("name",)}),)
     add_fieldsets = UserAdmin.add_fieldsets + ((None, {"fields": ("name",)}),)
-    

@@ -46,7 +46,7 @@ class LoginAttemptAdmin(admin.ModelAdmin):
     search_fields = ["user"]
 
 
-@admin.register(Profile) 
+@admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['user', 'avatar', 'bio'] 
-    raw_id_fields = ['user']
+    list_display = ["user", "avatar", "bio"]
+    raw_id_fields = ["user"]

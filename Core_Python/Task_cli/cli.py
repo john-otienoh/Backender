@@ -20,11 +20,12 @@ import cmd, sys
 from datetime import datetime
 from task_manager import save_task, get_tasks
 
+
 class Task(cmd.Cmd):
     """Interactive Task Tracker Shell"""
 
     intro = "Welcome to your Basic CLI Task Manager"
-    prompt = '(task) '
+    prompt = "(task) "
     file = None
 
     def __init__(self):
@@ -35,8 +36,8 @@ class Task(cmd.Cmd):
     def do_list(self, arg):
         """Lists all tasks: list"""
         print(self.all_tasks)
-    
-    def do_add(self, arg, status='todo'):
+
+    def do_add(self, arg, status="todo"):
         """Add a new task: add task_name task_status"""
         args = arg.split(maxsplit=1)
         if not args:
@@ -52,7 +53,7 @@ class Task(cmd.Cmd):
             "DESCRIPTION": args[0],
             "STATUS": status,
             "CREATED AT": datetime.now().isoformat(),
-            "UPDATED AT": datetime.now().isoformat()
+            "UPDATED AT": datetime.now().isoformat(),
         }
 
         self.all_tasks.append(new_task)
@@ -70,14 +71,14 @@ class Task(cmd.Cmd):
         try:
             tasks = get_tasks()
             for task in tasks:
-                if task['ID'] == task_id:
+                if task["ID"] == task_id:
                     if new_description is not None:
-                        task['DESCRIPTION'] = new_description
-                        task['UPDATED AT'] = datetime.now().isoformat()
+                        task["DESCRIPTION"] = new_description
+                        task["UPDATED AT"] = datetime.now().isoformat()
                         save_task(tasks)
                     if status is not None:
-                        task['STATUS'] = new_description
-                        task['UPDATED AT'] = datetime.now().isoformat()
+                        task["STATUS"] = new_description
+                        task["UPDATED AT"] = datetime.now().isoformat()
                         save_task(tasks)
 
             print(f"Task With ID {task_id} Not Found")
@@ -89,7 +90,7 @@ class Task(cmd.Cmd):
         try:
             tasks = get_tasks()
             for task in tasks:
-                if task['ID'] == task_id:
+                if task["ID"] == task_id:
                     tasks.remove(task)
                     save_task(tasks)
                     return f"Task With ID {task_id} deleted successfully"
@@ -103,12 +104,12 @@ class Task(cmd.Cmd):
         self.close()
         # bye()
         return True
-    
 
     def close(self):
         if self.file:
             self.file.close()
-            self.file =None
+            self.file = None
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     Task().cmdloop()

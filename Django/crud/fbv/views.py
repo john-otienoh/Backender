@@ -56,5 +56,7 @@ def search(request):
             | Q(email__icontains=query)
             | Q(employee_number__icontains=query)
         )
-        return render(request, 'crud/search.html', {'query':query, 'emp_results': emp_results})
-    return render(request, 'crud/search.html')
+        return render(
+            request, "crud/search.html", {"query": query, "emp_results": emp_results}
+        )
+    return render(request, "crud/search.html")

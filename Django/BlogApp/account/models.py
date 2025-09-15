@@ -12,10 +12,14 @@ class UserManager(BaseUserManager):
     ):
         if not email:
             raise ValueError("User Must have an email Address")
-        if not password:
-            raise ValueError("User must have a password")
+        # if not password:
+        #     raise ValueError("User must have a password")
         user_obj = self.model(email=self.normalize_email(email))
-        user_obj.set_password(password)
+        if password:
+            user_obj.set_password(password)
+        else:
+            user_obj.set_unusable_password()
+        # user_obj.set_password(password)
         user_obj.is_active = is_active
         user_obj.admin = is_admin
         user_obj.staff = is_staff
@@ -72,10 +76,8 @@ class LoginAttempt(models.Model):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
-    )
-    avatar = models.ImageField(default='default.jpg', upload_to='users/%Y/%m/%d/')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    avatar = models.ImageField(default="default.jpg", upload_to="users/%Y/%m/%d/")
     bio = models.TextField()
 
     def __str__(self):
@@ -91,4 +93,3 @@ class Profile(models.Model):
             new_img = (100, 100)
             img.thumbnail(new_img)
             img.save(self.avatar.path)
-            

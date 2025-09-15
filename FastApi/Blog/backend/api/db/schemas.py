@@ -2,12 +2,15 @@ from pydantic import BaseModel
 from enum import Enum
 from typing import OrderedDict
 
+
 class Blog(BaseModel):
     """Post Schema"""
+
     id: int
     title: str
     body: str
     is_published: bool = True
+
 
 class InMemoryDB:
     def __init__(self) -> None:
@@ -15,11 +18,11 @@ class InMemoryDB:
 
     def get_blogs(self) -> OrderedDict[int, Blog]:
         """Gets blogs from the database
-        
+
         Returns:
             OrderedDict[int, Blog]: Ordered dictionary of blogs."""
         return self.blogs
-    
+
     def create_blog(self, blog: Blog) -> Blog:
         """Adds book to database.
 
