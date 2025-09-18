@@ -70,27 +70,18 @@ Make sure to add these properties to the JSON file when adding a new task and up
 
 task-cli/
 │
-├── go.mod                  # Go module file
-├── go.sum                  # Dependencies checksum file (if any, even though no external libs here)
-├── tasks.json              # JSON storage file (auto-created if missing)
+├── go.mod                 # Go module file
+├── go.sum                 # Dependencies checksum file (if any, even though no external libs here)
+├── tasks.json             # JSON storage file (auto-created if missing)
 │
-├── cmd/                    # CLI entry points (subcommands dispatcher)
-│   └── root.go             # Main CLI argument parser & dispatcher
+├── utils/                 # Core application logic
+│   ├── task.go            # Task struct definition
+│   │        
+│   ├── data.go            # Load and save tasks.
+│   │        
+│   └── file.go            # Functions: add, update, delete, mark, list
 │
-├── internal/               # Core application logic (not exposed outside project)
-│   ├── models/             # Data structures
-│   │   └── task.go         # Task struct definition
-│   │
-│   ├── storage/            # JSON persistence layer
-│   │   └── file.go         # Load/save tasks, handle file creation
-│   │
-│   ├── services/           # Business logic
-│   │   └── task_service.go # Functions: add, update, delete, mark, list
-│   │
-│   └── utils/              # Helper functions
-│       └── id.go           # Generate unique IDs, timestamps
-│
-└── main.go                 # Application entry point (runs cmd/root.go)
+└── main.go                # Application entry point
 
 ```
 
@@ -122,4 +113,6 @@ go build -o task-tracker
 ./task-tracker list in-progress
 ```
 
+You can view the project here [Task Tracker](https://roadmap.sh/projects/task-tracker)
+</br>
 Happy coding!
